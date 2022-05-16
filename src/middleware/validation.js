@@ -15,7 +15,7 @@ const validation = (request, response, next) => {
     }
     //check if has property
     if (body.hasOwnProperty(config.name)) {
-      //if date check date is vdalid
+      //if date check date is valid
       if (config.type === "date") {
         let testDate = new Date(body[config.name]);
         if (!(testDate instanceof Date) || isNaN(testDate)) {
