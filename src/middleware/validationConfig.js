@@ -1,4 +1,6 @@
-//easy way to add validation
+/**
+ * Easy way to store validation requirements.
+ */
 const validationConfig = [
   {
     name: "name",

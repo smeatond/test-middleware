@@ -3,6 +3,9 @@ const validationConfig = require("./validationConfig");
 const validation = (request, response, next) => {
   const { body } = request;
   let error = false;
+  /**
+   * Goes through each validationConfig objects to check the request body against
+   */
   validationConfig.forEach((config) => {
     //first check has required properties
     if (config.required) {
@@ -13,9 +16,9 @@ const validation = (request, response, next) => {
           .send({ error: `missing required property ${config.name}` });
       }
     }
-    //check if has property
+    //check if has property before going through next checks (for those properties that weren't required.)
     if (body.hasOwnProperty(config.name)) {
-      //if date check date is valid
+      //if date type check date is valid
       if (config.type === "date") {
         let testDate = new Date(body[config.name]);
         if (!(testDate instanceof Date) || isNaN(testDate)) {
@@ -25,7 +28,7 @@ const validation = (request, response, next) => {
           });
         }
       } else {
-        // check correct type
+        // check correct type for other data types
         if (typeof body[config.name] !== config.type) {
           error = true;
           return response.status(400).send({
@@ -50,7 +53,7 @@ const validation = (request, response, next) => {
             });
           }
         }
-        //if there is a max valye check if string isn't over max length or number is
+        //if there is a max value check if string isn't over max length or number is
         if (config.hasOwnProperty("max")) {
           if (
             config.type === "string" &&
