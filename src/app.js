@@ -23,8 +23,31 @@ app.get("/test", logger, (request, response) => {
  *
  * If any of the above is missing it returns a 400 with an error message.
  */
-app.post("/test", validation, (request, response) => {
-  return response.send(request.body);
-});
+app.post(
+  "/test",
+  validation([
+    {
+      name: "name",
+      type: "string",
+      min: 1,
+      required: true,
+    },
+    {
+      name: "age",
+      type: "number",
+      min: 1,
+      max: 99,
+      required: true,
+    },
+    {
+      name: "date",
+      type: "date",
+      required: false,
+    },
+  ]),
+  (request, response) => {
+    return response.send(request.body);
+  }
+);
 
 module.exports = app;
